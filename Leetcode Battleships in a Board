@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+int X[]={-1,1,0,0};
+int Y[]={0,0,1,-1};
+int m,n;
+int arr[100][100];
+int visited[100][100];
+queue<pair<int,int>>q;
+bool valid(pair<int, int>s, int i, int j){
+	if(s.first+i<0 || s.first+i>=m || s.second+j<0 || s.second+j>=n || arr[s.first+i][s.second+j]==0 || visited[s.first+i][s.second+j]==1){
+		return false;
+	}
+	return true;
+	
+	
+}
+void bfs(int i, int j){
+	
+	q.push(make_pair(i,j));
+	while(!q.empty()){
+		
+		pair<int, int>temp=q.front();
+		q.pop();
+		for(int k=0;k<4;k++){
+			if(valid(temp,X[k], Y[k])){
+				visited[temp.first+X[k]][temp.second+Y[k]]=1;
+				q.push(make_pair(temp.first+X[k], temp.second+Y[k]));
+			}
+			
+			
+		}
+		
+		
+		
+		
+	}
+
+	
+}
+
+int main() {
+	int count=0;
+	
+	cin>>m>>n;
+	
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			cin>>arr[i][j];
+			visited[i][j]=0;
+		}
+	}
+			
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+			if(arr[i][j]==1 && visited[i][j]!=1){
+				visited[i][j]=1;
+				bfs(i,j);
+				count++;
+			}
+		}
+	}
+	cout<<count;
+	// your code goes here
+	return 0;
+}
