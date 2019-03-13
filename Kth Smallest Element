@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+int N=6;
+void heapify(int arr[], int s){
+ 
+	int left= 2*s+1;
+	int right=2*s+2;
+	int smallest=s;
+ 
+	if(left<N && arr[left]<arr[s]){
+		smallest=left;
+	}
+	if(right<N && arr[right]<arr[smallest]){
+		smallest=right;
+	}
+ 
+	if(smallest!=s){
+		swap(arr[s], arr[smallest]);
+		heapify(arr, smallest);
+	}
+ 
+ 
+ 
+}
+void buildheap(int arr[]){
+ 
+	for(int i=0;i<N/2;i++){
+ 
+		heapify(arr, i);
+ 
+	}
+ 
+ 
+}
+void findksmallest(int arr[], int k){
+	buildheap(arr);
+	for(int i=0;i<k;i++){
+		cout<<arr[0]<<endl;
+		arr[0]=arr[N-1];
+		heapify(arr, 0);
+		N=N-1;
+	}
+}
+ 
+int main() {
+ 
+ 
+	int arr[]={112,3,6,12,13,9};
+	int k=3;
+ 
+	findksmallest(arr,k);
+ 
+ 
+	// your code goes here
+	return 0;
+}
