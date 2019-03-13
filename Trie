@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct Trie{
+	map<char, struct Trie*>m;
+	bool endnode;
+ 
+	Trie(){
+		endnode=false;
+	}
+ 
+};
+typedef struct Trie Trie;
+vector<string>res;
+Trie* gT= new Trie();
+ 
+void insert_to_trie(string str){
+	Trie* T=gT;
+	for(int i=0;i<str.length();i++){
+		if(T->m.find(str[i])==T->m.end()){
+			T->m[str[i]]=new Trie();
+		}
+		T=T->m[str[i]];
+	}
+	T->endnode=true;
+}
+ 
+void find_word(Trie* T, string str){
+ 
+	if(T->endnode==true){
+		res.push_back(str);
+	}
+	for(auto i=T->m.begin();i!=T->m.end();i++){
+		find_word(i->second, str+i->first);
+ 
+	}
+}
+void find_words(string str){
+ 
+	Trie* T=gT;
+	for(int i=0;i<str.length();i++){
+		if(T->m.find(str[i])==T->m.end()){
+			return;
+		}
+		T=T->m[str[i]];
+	}
+	find_word(T, str);
+}
+void parse_string(string stra){
+	string temp="";
+	int i;
+ 
+	for(i=0;i<stra.length();i++){
+ 
+		if(stra.substr(i,1)==" "){
+			//cout<<temp<<endl;
+			insert_to_trie(temp);
+			temp="";
+		}
+		else{
+			temp=temp+stra[i];
+		}
+	}
+	temp=temp+stra[i];
+	insert_to_trie(temp);
+}
+int main() {
+ 
+	string str_a, str_b;
+ 
+	getline(cin,str_a);
+	cin>>str_b;
+	//cout<<str_a.substr(0,1)<<endl;
+	parse_string(str_a);
+	find_words(str_b);
+	//find_word(gT,"");
+	for(int i=0;i<res.size();i++){
+ 
+		cout<<res[i]<<endl;
+	}
+
+	// your code goes here
+	return 0;
+}
